@@ -14,7 +14,7 @@
                             <div class="card-header">You</div>
                             <div class="card-body">
                                 <div class="progress" style="height: 50px;">
-                                    <div class="progress-bar" :class="playerLifeColors" role="progressbar" :style="{width: playerLife + '%'}" aria-valuenow="{{ playerLife }}" aria-valuemin="0" aria-valuemax="100">{{ playerLife }}</div>
+                                    <div class="progress-bar" :class="playerLifeColors" role="progressbar" :style="{width: playerLife + '%'}" :aria-valuenow="playerLife" aria-valuemin="0" aria-valuemax="100">{{ playerLife }}</div>
                                 </div>
                             </div>
                         </div>
@@ -24,7 +24,7 @@
                             <div class="card-header">Monster</div>
                             <div class="card-body">
                                 <div class="progress" style="height: 50px;">
-                                    <div class="progress-bar" :class="monsterLifeColors" role="progressbar" :style="{width: monsterLife + '%'}" aria-valuenow="{{ monsterLife }}" aria-valuemin="0" aria-valuemax="100">{{ monsterLife }}</div>
+                                    <div class="progress-bar" :class="monsterLifeColors" role="progressbar" :style="{width: monsterLife + '%'}" :aria-valuenow="monsterLife" aria-valuemin="0" aria-valuemax="100">{{ monsterLife }}</div>
                                 </div>
                             </div>
                         </div>
