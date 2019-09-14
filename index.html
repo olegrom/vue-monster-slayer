@@ -1,0 +1,85 @@
+<html lang="en">
+    <head>
+        <title>Monster Slayer</title>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+
+    <body>
+        <div id="app">
+            <div class="container">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-header">You</div>
+                            <div class="card-body">
+                                <div class="progress" style="height: 50px;">
+                                    <div class="progress-bar" :class="playerLifeColors" role="progressbar" :style="{width: playerLife + '%'}" aria-valuenow="{{ playerLife }}" aria-valuemin="0" aria-valuemax="100">{{ playerLife }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-header">Monster</div>
+                            <div class="card-body">
+                                <div class="progress" style="height: 50px;">
+                                    <div class="progress-bar" :class="monsterLifeColors" role="progressbar" :style="{width: monsterLife + '%'}" aria-valuenow="{{ monsterLife }}" aria-valuemin="0" aria-valuemax="100">{{ monsterLife }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-5">
+                    <div class="col-12 text-center">
+                        <div class="card" v-if="!gameInProgress || gameCompleted">
+                            <div class="card-body">
+                                <button class="btn btn-primary" @click="startGame">Start new game</button>
+                            </div>
+                        </div>
+
+                        <div class="card" v-if="gameInProgress && !gameCompleted">
+                            <div class="card-body">
+                                <button class="btn btn-danger" @click="attack">Attack</button>
+                                <button class="btn btn-warning" @click="specialAttack">Special Attack</button>
+                                <button class="btn btn-success" @click="heal">Heal</button>
+                                <button class="btn btn-outline-secondary" @click="giveUp">Give Up</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" v-if="gameInProgress">
+                    <div class="col-12">
+                        <ul class="list-group mb-3" v-for="att in attacks">
+                            <template v-if="typeof att.player !== 'boolean' && typeof att.monster !== 'boolean'">
+                                <li class="list-group-item list-group-item-success">
+                                    <template v-if="att.player > 0">Player hits monster {{ att.player }}</template>
+                                    <template v-else>Player heals {{ att.player * -1 }}</template>
+                                </li>
+                                <li class="list-group-item list-group-item-danger">Monster hits player {{ att.monster }}</li>
+                            </template>
+                            <template v-else>
+                                <li class="list-group-item list-group-item-success">
+                                    <template v-if="att.player === false">Player lost</template>
+                                    <template v-else>Player won</template>
+                                </li>
+                                <li class="list-group-item list-group-item-danger">
+                                    <template v-if="att.monster === false">Monster lost</template>
+                                    <template v-else>Monster won</template>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="app.js"></script>
+    </body>
+</html>
