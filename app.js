@@ -57,22 +57,21 @@ new Vue({
 
             // check that player and monster life will not go beyond 0
             if (this.playerLife < 0) this.playerLife = 0;
+            else if (this.playerLife > 100) this.playerLife = 100;
             if (this.monsterLife < 0) this.monsterLife = 0;
 
             if (this.monsterLife > 0 && this.playerLife > 0) {
-                this.attacks.push({player: playerHit, monster: monsterHit, type: 'action'});
-            } else if (this.monsterLife === 0) {
+                this.attacks.unshift({player: playerHit, monster: monsterHit, type: 'action'});
+            } else if (this.monsterLife === 0 || this.playerLife === 0) {
                 this.finishGame();
-            } else if (this.playerLife === 0) {
-
             }
         },
         finishGame: function() {
             var playerWon = this.playerLife > this.monsterLife;
-            this.attacks.push({player: playerWon, monster: !playerWon, type: 'summary'});
+            this.attacks.unshift({player: playerWon, monster: !playerWon, type: 'summary'});
         },
         getDamage: function(max) {
-            return Math.floor(Math.random() * max);
+            return 1 + Math.floor(Math.random() * max);
         }
     },
     computed: {

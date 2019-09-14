@@ -43,7 +43,7 @@
                             <div class="card-body">
                                 <button class="btn btn-danger" @click="attack">Attack</button>
                                 <button class="btn btn-warning" @click="specialAttack">Special Attack</button>
-                                <button class="btn btn-success" @click="heal">Heal</button>
+                                <button class="btn btn-success" @click="heal" :disabled="playerLife === 100">Heal</button>
                                 <button class="btn btn-outline-secondary" @click="giveUp">Give Up</button>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
 
                 <div class="row" v-if="gameInProgress">
                     <div class="col-12">
-                        <ul class="list-group mb-3" v-for="att in attacks.reverse()">
+                        <ul class="list-group mb-3" v-for="att in attacks">
                             <template v-if="att.type === 'action'">
                                 <li class="list-group-item list-group-item-success">
                                     <template v-if="att.player > 0">Player hits monster {{ att.player }}</template>
