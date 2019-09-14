@@ -23,28 +23,30 @@ new Vue({
             this.attacks = [];
         },
         attack: function() {
-            var playerHit = Math.floor(Math.random() * 20);
-            var monsterHit = Math.floor(Math.random() * 20);
+            var playerHit = this.getDamage(20);
+            var monsterHit = this.getDamage(20);
 
             this.addAttack(playerHit, monsterHit);
         },
         specialAttack: function() {
-            var playerHit = Math.floor(Math.random() * 30);
-            var monsterHit = Math.floor(Math.random() * (playerHit * 0.5));
+            var playerHit = this.getDamage(30);
+            var monsterHit = this.getDamage(playerHit * 0.5);
 
             this.addAttack(playerHit, monsterHit);
         },
         heal: function() {
-            var monsterHit = Math.floor(Math.random() * 10);
-            var playerHit = (Math.floor(Math.random() * 30)) * -1;
+            var monsterHit = this.getDamage(10);
+            var playerHit = this.getDamage(30) * -1;
 
             this.addAttack(playerHit, monsterHit);
         },
         giveUp: function() {
             this.givenUp = true;
+            this.finishGame();
         },
         addAttack: function(playerHit, monsterHit) {
             if (playerHit >= 0) {
+                // hit
                 this.playerLife -= monsterHit;
                 this.monsterLife -= playerHit;
             } else {
@@ -53,20 +55,24 @@ new Vue({
                 this.playerLife += playerHit * -1;
             }
 
-            if (this.playerLife < 0) {
-                this.playerLife = 0;
-                this.attacks.push({player: false, monster: true});
-            } else if (this.playerLife > 100) {
-                this.playerLife = 100;
-            }
-            if (this.monsterLife < 0) {
-                this.monsterLife = 0;
-                this.attacks.push({player: true, monster: false});
-            }
+            // check that player and monster life will not go beyond 0
+            if (this.playerLife < 0) this.playerLife = 0;
+            if (this.monsterLife < 0) this.monsterLife = 0;
 
             if (this.monsterLife > 0 && this.playerLife > 0) {
-                this.attacks.push({player: playerHit, monster: monsterHit});
+                this.attacks.push({player: playerHit, monster: monsterHit, type: 'action'});
+            } else if (this.monsterLife === 0) {
+                this.finishGame();
+            } else if (this.playerLife === 0) {
+
             }
+        },
+        finishGame: function() {
+            var playerWon = this.playerLife > this.monsterLife;
+            this.attacks.push({player: playerWon, monster: !playerWon, type: 'summary'});
+        },
+        getDamage: function(max) {
+            return Math.floor(Math.random() * max);
         }
     },
     computed: {

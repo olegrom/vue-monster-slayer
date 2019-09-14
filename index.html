@@ -52,8 +52,8 @@
 
                 <div class="row" v-if="gameInProgress">
                     <div class="col-12">
-                        <ul class="list-group mb-3" v-for="att in attacks">
-                            <template v-if="typeof att.player !== 'boolean' && typeof att.monster !== 'boolean'">
+                        <ul class="list-group mb-3" v-for="att in attacks.reverse()">
+                            <template v-if="att.type === 'action'">
                                 <li class="list-group-item list-group-item-success">
                                     <template v-if="att.player > 0">Player hits monster {{ att.player }}</template>
                                     <template v-else>Player heals {{ att.player * -1 }}</template>
